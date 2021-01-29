@@ -4,6 +4,7 @@ var addBtn = document.querySelector('#todo-save');
 var taskInput = document.querySelector('#todo-item');
 var submitBtn = document.querySelector('#todo-add');
 var deleteAll = document.querySelector('#todo-delall');
+var delDone = document.querySelector('#todo-delcom');
 var Task = /** @class */ (function () {
     function Task(todo) {
         this.todo = todo;
@@ -61,3 +62,12 @@ var markTask = function (event) {
     updatedObj.classes += " done";
     localStorage.setItem(divId, JSON.stringify(updatedObj));
 };
+delDone.addEventListener('click', function () {
+    var todoItems = document.querySelectorAll('.todo-item');
+    todoItems.forEach(function (val) {
+        if (val.classList.contains('done')) {
+            val.remove();
+            localStorage.removeItem("" + val.id);
+        }
+    });
+});

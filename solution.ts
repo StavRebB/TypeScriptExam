@@ -5,6 +5,7 @@ const addBtn:HTMLElement = document.querySelector('#todo-save')
 const taskInput:HTMLInputElement = document.querySelector('#todo-item')
 const submitBtn:HTMLFormElement = document.querySelector('#todo-add')
 const deleteAll:HTMLElement = document.querySelector('#todo-delall')
+const delDone:HTMLElement = document.querySelector('#todo-delcom')
 
 class Task {
     public todo:string
@@ -85,3 +86,13 @@ let markTask = (event:any) => {
     updatedObj.classes += " done"
     localStorage.setItem(divId,JSON.stringify(updatedObj))
 }
+
+delDone.addEventListener('click', () => {
+    let todoItems = document.querySelectorAll('.todo-item')
+    todoItems.forEach((val) => {
+        if (val.classList.contains('done')) {
+            val.remove()
+            localStorage.removeItem(`${val.id}`)
+        }
+    })
+})
