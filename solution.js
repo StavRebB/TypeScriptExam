@@ -23,8 +23,8 @@ addBtn.addEventListener('click', function () {
     var newItem = new Task(taskInput.value);
     var newName = "Obj_" + newItem.id;
     localStorage.setItem(newName, JSON.stringify(newItem));
-    console.log(newItem);
     createNewItem(newItem);
+    taskInput.value = "";
 });
 var createNewItem = function (obj) {
     var para = document.createElement('div');
@@ -40,16 +40,24 @@ var createNewItem = function (obj) {
     listDiv.append(para);
 };
 window.onload = function () {
+    var sortedArr = [];
     for (var i = 0; i < localStorage.length; i++) {
         var tasking = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        createNewItem(tasking);
+        sortedArr.push(tasking.id);
+    }
+    if (sortedArr.length) {
+        sortedArr.sort(function (a, b) { return a - b; });
+        for (var i_1 in sortedArr) {
+            var objects = JSON.parse(localStorage.getItem("Obj_" + sortedArr[i_1]));
+            createNewItem(objects);
+        }
     }
 };
 var markTask = function (event) {
     var btnDiv = event.target.parentElement;
     btnDiv.classList.add('done');
-    var objId = btnDiv.id;
-    var storageObj = JSON.parse(localStorage.getItem(objId));
-    storageObj.classes += " done";
-    localStorage.setItem(objId, JSON.stringify(storageObj));
+    var divId = btnDiv.id;
+    var updatedObj = JSON.parse(localStorage.getItem(divId));
+    updatedObj.classes += " done";
+    localStorage.setItem(divId, JSON.stringify(updatedObj));
 };

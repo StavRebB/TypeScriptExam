@@ -34,9 +34,9 @@ addBtn.addEventListener('click', () => {
 
     localStorage.setItem(newName,JSON.stringify(newItem))
 
-    console.log(newItem)
-
     createNewItem(newItem)
+
+    taskInput.value = ""
 })
 
 let createNewItem = (obj:any) => {
@@ -63,17 +63,25 @@ let createNewItem = (obj:any) => {
 }
 
 window.onload = () => {
+    let sortedArr:Array<number>=[]
     for (var i = 0; i < localStorage.length; i++){
-        let tasking = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        createNewItem(tasking)
+        let tasking = JSON.parse(localStorage.getItem(localStorage.key(i)))
+        sortedArr.push(tasking.id)
+    }
+    if (sortedArr.length) {
+        sortedArr.sort((a,b) => { return a-b})
+        for (let i in sortedArr) {
+            let objects = JSON.parse(localStorage.getItem(`Obj_${sortedArr[i]}`))
+            createNewItem(objects)
+        }
     }
 }
 
 let markTask = (event:any) => {
     let btnDiv:HTMLElement = event.target.parentElement
     btnDiv.classList.add('done')
-    let objId:string = btnDiv.id
-    let storageObj = JSON.parse(localStorage.getItem(objId))
-    storageObj.classes += " done"
-    localStorage.setItem(objId,JSON.stringify(storageObj))
+    let divId:string = btnDiv.id
+    let updatedObj = JSON.parse(localStorage.getItem(divId))
+    updatedObj.classes += " done"
+    localStorage.setItem(divId,JSON.stringify(updatedObj))
 }
