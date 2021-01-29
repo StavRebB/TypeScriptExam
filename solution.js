@@ -7,13 +7,10 @@ var deleteAll = document.querySelector('#todo-delall');
 var Task = /** @class */ (function () {
     function Task(todo) {
         this.todo = todo;
-        this.id = randKey();
+        this.id = Date.now();
     }
     return Task;
 }());
-var randKey = function () {
-    return Math.ceil(Math.random() * 100000);
-};
 submitBtn.addEventListener('click', function (event) {
     event.preventDefault();
 });

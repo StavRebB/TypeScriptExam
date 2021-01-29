@@ -1,10 +1,10 @@
 console.log("STARTING PROJECT")
 
-const listDiv = document.querySelector('#todo-list')
-const addBtn = document.querySelector('#todo-save')
-const taskInput = document.querySelector('#todo-item')
-const submitBtn = document.querySelector('#todo-add')
-const deleteAll = document.querySelector('#todo-delall')
+const listDiv:HTMLElement = document.querySelector('#todo-list')
+const addBtn:HTMLElement = document.querySelector('#todo-save')
+const taskInput:HTMLInputElement = document.querySelector('#todo-item')
+const submitBtn:HTMLFormElement = document.querySelector('#todo-add')
+const deleteAll:HTMLElement = document.querySelector('#todo-delall')
 
 class Task {
     public todo:string
@@ -12,12 +12,8 @@ class Task {
 
     constructor(todo:string) {
         this.todo = todo
-        this.id = randKey()
+        this.id = Date.now()
     }
-}
-
-let randKey = ():number => {
-    return Math.ceil(Math.random() * 100000)
 }
 
 submitBtn.addEventListener('click', (event) => {
@@ -30,7 +26,7 @@ deleteAll.addEventListener('click', () => {
 })
 
 addBtn.addEventListener('click', () => {
-    let newItem = new Task(taskInput.value)
+    let newItem:Task = new Task(taskInput.value)
 
     let newName:string = `Obj_${newItem.id}`
 
@@ -41,8 +37,8 @@ addBtn.addEventListener('click', () => {
     createNewItem(newItem)
 })
 
-let createNewItem = (obj) => {
-    let para = document.createElement('div')
+let createNewItem = (obj:any) => {
+    let para:HTMLElement = document.createElement('div')
 
     para.classList.add('todo-item')
 
@@ -50,7 +46,7 @@ let createNewItem = (obj) => {
 
     para.setAttribute('id',`Obj_${obj.id}`)
 
-    let newBtn = document.createElement('input')
+    let newBtn:HTMLElement = document.createElement('input')
 
     newBtn.classList.add('todo-ok')
 
@@ -71,7 +67,7 @@ window.onload = () => {
     }
 }
 
-let markTask = (event) => {
-    let btnDiv = event.target.parentElement
+let markTask = (event:any) => {
+    let btnDiv:HTMLElement = event.target.parentElement
     btnDiv.classList.add('done')
 }
