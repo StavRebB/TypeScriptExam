@@ -21,22 +21,30 @@ deleteAll.addEventListener('click', function () {
     listDiv.innerHTML = "";
 });
 addBtn.addEventListener('click', function () {
-    var newItem = new Task(taskInput.value);
-    var newName = "Obj_" + newItem.id;
-    localStorage.setItem(newName, JSON.stringify(newItem));
-    createNewItem(newItem);
-    taskInput.value = "";
+    if (taskInput.value != "") {
+        var newItem = new Task(taskInput.value);
+        var newName = "Obj_" + newItem.id;
+        localStorage.setItem(newName, JSON.stringify(newItem));
+        createNewItem(newItem);
+        taskInput.value = "";
+    }
 });
 var createNewItem = function (obj) {
     var para = document.createElement('div');
     para.setAttribute('class', "" + obj.classes);
-    para.innerText = obj.todo;
     para.setAttribute('id', "Obj_" + obj.id);
+    var txtSpan = document.createElement('p');
+    txtSpan.innerText = obj.todo;
+    txtSpan.style.paddingLeft = '5px';
+    txtSpan.style.marginBlockStart = '10px';
+    txtSpan.style.display = 'inline-block';
+    para.append(txtSpan);
     var newBtn = document.createElement('input');
     newBtn.classList.add('todo-ok');
     newBtn.setAttribute('type', 'button');
     newBtn.setAttribute('value', '✓');
     newBtn.setAttribute('onclick', 'markTask(event)');
+    newBtn.style.position = 'relative';
     para.append(newBtn);
     listDiv.append(para);
 };

@@ -29,15 +29,18 @@ deleteAll.addEventListener('click', () => {
 })
 
 addBtn.addEventListener('click', () => {
-    let newItem:Task = new Task(taskInput.value)
 
-    let newName:string = `Obj_${newItem.id}`
+    if (taskInput.value != "") {
+        let newItem:Task = new Task(taskInput.value)
 
-    localStorage.setItem(newName,JSON.stringify(newItem))
-
-    createNewItem(newItem)
-
-    taskInput.value = ""
+        let newName:string = `Obj_${newItem.id}`
+    
+        localStorage.setItem(newName,JSON.stringify(newItem))
+    
+        createNewItem(newItem)
+    
+        taskInput.value = ""
+    }
 })
 
 let createNewItem = (obj:any) => {
@@ -45,9 +48,19 @@ let createNewItem = (obj:any) => {
 
     para.setAttribute('class',`${obj.classes}`)
 
-    para.innerText = obj.todo;
-
     para.setAttribute('id',`Obj_${obj.id}`)
+
+    let txtSpan:HTMLElement = document.createElement('p')
+
+    txtSpan.innerText = obj.todo;
+
+    txtSpan.style.paddingLeft = '5px'
+
+    txtSpan.style.marginBlockStart = '10px'
+
+    txtSpan.style.display = 'inline-block'
+
+    para.append(txtSpan)
 
     let newBtn:HTMLElement = document.createElement('input')
 
@@ -59,6 +72,8 @@ let createNewItem = (obj:any) => {
 
     newBtn.setAttribute('onclick','markTask(event)')
 
+    newBtn.style.position = 'relative'
+
     para.append(newBtn)
     listDiv.append(para)
 }
@@ -66,13 +81,13 @@ let createNewItem = (obj:any) => {
 window.onload = () => {
     let sortedArr:Array<number>=[]
     for (var i = 0; i < localStorage.length; i++){
-        let tasking = JSON.parse(localStorage.getItem(localStorage.key(i)))
+        let tasking:Task = JSON.parse(localStorage.getItem(localStorage.key(i)))
         sortedArr.push(tasking.id)
     }
     if (sortedArr.length) {
         sortedArr.sort((a,b) => { return a-b})
         for (let i in sortedArr) {
-            let objects = JSON.parse(localStorage.getItem(`Obj_${sortedArr[i]}`))
+            let objects:Task = JSON.parse(localStorage.getItem(`Obj_${sortedArr[i]}`))
             createNewItem(objects)
         }
     }
@@ -88,7 +103,7 @@ let markTask = (event:any) => {
 }
 
 delDone.addEventListener('click', () => {
-    let todoItems = document.querySelectorAll('.todo-item')
+    let todoItems:NodeListOf<HTMLElement> = document.querySelectorAll('.todo-item')
     todoItems.forEach((val) => {
         if (val.classList.contains('done')) {
             val.remove()
