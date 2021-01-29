@@ -8,6 +8,7 @@ var Task = /** @class */ (function () {
     function Task(todo) {
         this.todo = todo;
         this.id = Date.now();
+        this.classes = 'todo-item';
     }
     return Task;
 }());
@@ -27,7 +28,7 @@ addBtn.addEventListener('click', function () {
 });
 var createNewItem = function (obj) {
     var para = document.createElement('div');
-    para.classList.add('todo-item');
+    para.setAttribute('class', "" + obj.classes);
     para.innerText = obj.todo;
     para.setAttribute('id', "Obj_" + obj.id);
     var newBtn = document.createElement('input');
@@ -47,4 +48,8 @@ window.onload = function () {
 var markTask = function (event) {
     var btnDiv = event.target.parentElement;
     btnDiv.classList.add('done');
+    var objId = btnDiv.id;
+    var storageObj = JSON.parse(localStorage.getItem(objId));
+    storageObj.classes += " done";
+    localStorage.setItem(objId, JSON.stringify(storageObj));
 };

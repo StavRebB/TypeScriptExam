@@ -9,10 +9,12 @@ const deleteAll:HTMLElement = document.querySelector('#todo-delall')
 class Task {
     public todo:string
     public id:number
+    public classes:string
 
     constructor(todo:string) {
         this.todo = todo
         this.id = Date.now()
+        this.classes = 'todo-item'
     }
 }
 
@@ -40,7 +42,7 @@ addBtn.addEventListener('click', () => {
 let createNewItem = (obj:any) => {
     let para:HTMLElement = document.createElement('div')
 
-    para.classList.add('todo-item')
+    para.setAttribute('class',`${obj.classes}`)
 
     para.innerText = obj.todo;
 
@@ -70,4 +72,8 @@ window.onload = () => {
 let markTask = (event:any) => {
     let btnDiv:HTMLElement = event.target.parentElement
     btnDiv.classList.add('done')
+    let objId:string = btnDiv.id
+    let storageObj = JSON.parse(localStorage.getItem(objId))
+    storageObj.classes += " done"
+    localStorage.setItem(objId,JSON.stringify(storageObj))
 }
